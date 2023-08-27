@@ -1,0 +1,8 @@
+[workspace]
+
+members = [
+  "rc_dataset_generator"
+]
+
+[workspace.dependencies]
+rand = { version = "0.8.5" }

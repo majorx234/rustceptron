@@ -1,0 +1,12 @@
+[package]
+name = "rc_dataset_generator"
+version = "0.1.0"
+authors = ["MajorX234 <majorx234@googlemail.com>"]
+edition = "2021"
+
+[lib]
+name = "rc_dataset_generator"
+path = "src/lib.rs"
+
+[dependencies]
+rand = { version = "0.8.5"}
