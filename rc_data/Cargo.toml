@@ -1,0 +1,13 @@
+[package]
+name = "rc_data"
+version = "0.1.0"
+authors = ["MajorX234 <majorx234@googlemail.com>"]
+edition = "2021"
+
+[lib]
+name = "rc_data"
+path = "src/lib.rs"
+
+[dependencies]
+num = { version = "0.4.1" }
+num-traits = { version = "0.2.16" }

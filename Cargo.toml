@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+  "rc_data",
   "rc_dataset_generator"
 ]
 
