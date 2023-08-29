@@ -9,4 +9,5 @@ name = "rc_dataset_generator"
 path = "src/lib.rs"
 
 [dependencies]
+rc_data = { path = "../rc_data"}
 rand = { version = "0.8.5"}
