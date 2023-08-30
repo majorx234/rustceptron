@@ -11,13 +11,13 @@ fn clampi(x: isize, low: isize, high: isize) -> isize {
     x
 }
 
-fn layer_fill_rect(layer: &mut Layer<f32>, x: isize, y: isize, w: isize, h: isize, value: f32) {
+fn layer_fill_rect(layer: &mut Layer<f32>, cx: isize, cy: isize, w: isize, h: isize, value: f32) {
     assert!(w > 0);
     assert!(h > 0);
-    let x0 = clampi(x, 0, layer.width as isize - 1);
-    let y0 = clampi(y, 0, layer.height as isize - 1);
-    let x1 = clampi(x0 + w, 0, layer.width as isize - 1);
-    let y1 = clampi(y0 + h, 0, layer.height as isize - 1);
+    let x0 = clampi(cx - w / 2, 0, layer.width as isize - 1);
+    let y0 = clampi(cy - h / 2, 0, layer.height as isize - 1);
+    let x1 = clampi(cx + w / 2, 0, layer.width as isize - 1);
+    let y1 = clampi(cy + h / 2, 0, layer.height as isize - 1);
     for y in y0..y1 {
         for x in x0..x1 {
             layer.data[y as usize * (layer.width - 1) + x as usize] = value;
