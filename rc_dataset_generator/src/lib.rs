@@ -27,7 +27,7 @@ pub fn layer_fill_rect(
     let y1 = clampi(cy + h / 2, 0, layer.height as isize - 1);
     for y in y0..y1 {
         for x in x0..x1 {
-            layer.data[y as usize * (layer.width - 1) + x as usize] = value;
+            layer.data[y as usize * layer.width + x as usize] = value;
         }
     }
 }
@@ -38,12 +38,12 @@ pub fn layer_fill_circle(layer: &mut Layer<f32>, cx: isize, cy: isize, r: isize,
     let y0 = clampi(cy - r, 0, layer.height as isize - 1);
     let x1 = clampi(cx + r, 0, layer.width as isize - 1);
     let y1 = clampi(cy + r, 0, layer.height as isize - 1);
-    for y in y0..y1 {
-        for x in x0..x1 {
+    for y in y0..=y1 {
+        for x in x0..=x1 {
             let dx = x - cx;
             let dy = y - cy;
             if dx * dx + dy * dy <= r * r {
-                layer.data[y as usize * (layer.width - 1) + x as usize] = value;
+                layer.data[y as usize * layer.width + x as usize] = value;
             }
         }
     }
