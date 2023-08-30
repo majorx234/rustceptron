@@ -1,7 +1,7 @@
 use rc_data::Layer;
 
 #[inline(always)]
-fn clampi(x: isize, low: isize, high: isize) -> isize {
+pub fn clampi(x: isize, low: isize, high: isize) -> isize {
     if x < low {
         return low;
     };
@@ -11,7 +11,14 @@ fn clampi(x: isize, low: isize, high: isize) -> isize {
     x
 }
 
-fn layer_fill_rect(layer: &mut Layer<f32>, cx: isize, cy: isize, w: isize, h: isize, value: f32) {
+pub fn layer_fill_rect(
+    layer: &mut Layer<f32>,
+    cx: isize,
+    cy: isize,
+    w: isize,
+    h: isize,
+    value: f32,
+) {
     assert!(w > 0);
     assert!(h > 0);
     let x0 = clampi(cx - w / 2, 0, layer.width as isize - 1);
@@ -25,7 +32,7 @@ fn layer_fill_rect(layer: &mut Layer<f32>, cx: isize, cy: isize, w: isize, h: is
     }
 }
 
-fn layer_fill_circle(layer: &mut Layer<f32>, cx: isize, cy: isize, r: isize, value: f32) {
+pub fn layer_fill_circle(layer: &mut Layer<f32>, cx: isize, cy: isize, r: isize, value: f32) {
     assert!(r > 0);
     let x0 = clampi(cx - r, 0, layer.width as isize - 1);
     let y0 = clampi(cy - r, 0, layer.height as isize - 1);

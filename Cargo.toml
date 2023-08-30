@@ -2,7 +2,8 @@
 
 members = [
   "rc_data",
-  "rc_dataset_generator"
+  "rc_dataset_generator",
+  "rc_example",
 ]
 
 [workspace.dependencies]

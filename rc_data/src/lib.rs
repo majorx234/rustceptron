@@ -6,12 +6,27 @@ pub struct Layer<T: Float> {
     pub data: Vec<T>,
 }
 
-impl<T: num_traits::Float> Layer<T> {
+impl<T: Float> Layer<T> {
     pub fn new(width: usize, height: usize) -> Self {
         Self {
             width,
             height,
             data: vec![Zero::zero(); width * height],
+        }
+    }
+}
+
+impl<T: Float> Layer<T> {
+    pub fn print(self) {
+        for y in 0..self.height {
+            for x in 0..self.width {
+                if self.data[y * self.width + x] > Zero::zero() {
+                    print!("#");
+                } else {
+                    print!(" ");
+                }
+            }
+            println!();
         }
     }
 }
