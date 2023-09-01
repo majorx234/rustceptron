@@ -1,6 +1,6 @@
-use crate::egui::Ui;
 use eframe::egui;
-use eframe::egui::{lerp, Color32, Rgba, TextureHandle};
+use eframe::egui::{Color32, TextureHandle};
+use egui::Ui;
 
 struct Visualizer {
     pub tex_mngr: TextureManager,
@@ -27,7 +27,7 @@ impl Visualizer {
     }
 
     fn set_values(&mut self, ctx: &egui::Context, new_image: Vec<Vec<f32>>) {
-        let new_image_int: Vec<Vec<u8>> = Vec::new();
+        let mut new_image_int: Vec<Vec<u8>> = Vec::new();
         for pixel_row in new_image.iter() {
             let pixel_row_int = pixel_row
                 .iter()
@@ -65,5 +65,34 @@ impl TextureManager {
                 pixels,
             },
         ));
+    }
+}
+
+pub struct VisualizerGui {
+    visualizer: Visualizer,
+}
+
+impl VisualizerGui {
+    pub fn new() -> Self {
+        Self {
+            visualizer: Visualizer::default(),
+        }
+    }
+}
+impl Default for VisualizerGui {
+    fn default() -> Self {
+        Self {
+            visualizer: Visualizer::default(),
+        }
+    }
+}
+
+impl eframe::App for VisualizerGui {
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        egui::CentralPanel::default().show(ctx, |ui| {
+            // todo new image creation
+            let new_image = vec![vec![0.0; 512]; 512];
+            self.visualizer.ui(ui, new_image);
+        });
     }
 }
