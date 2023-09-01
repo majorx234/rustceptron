@@ -4,6 +4,7 @@ members = [
   "rc_data",
   "rc_dataset_generator",
   "rc_example",
+  "rc_visualizer",
 ]
 
 [workspace.dependencies]
