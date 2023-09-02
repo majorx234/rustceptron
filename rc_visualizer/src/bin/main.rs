@@ -1,5 +1,4 @@
-mod visualizer_gui;
-use crate::visualizer_gui::VisualizerGui;
+use visualizer::visualizer_gui::VisualizerGui;
 
 fn main() {
     let visualizer_app = VisualizerGui::new();
