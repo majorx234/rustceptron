@@ -48,7 +48,7 @@ impl TextureManager {
     pub fn update_texture(
         &mut self,
         ctx: &egui::Context,
-        new_image: Vec<Vec<u8>>,
+        _new_image: Vec<Vec<u8>>,
         width: usize,
         height: usize,
     ) {
