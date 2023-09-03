@@ -72,12 +72,14 @@ impl TextureManager {
 
 pub struct VisualizerGui {
     visualizer: Visualizer,
+    create_new_image: bool,
 }
 
 impl VisualizerGui {
     pub fn new() -> Self {
         Self {
             visualizer: Visualizer::default(),
+            create_new_image: true,
         }
     }
 }
@@ -85,6 +87,7 @@ impl Default for VisualizerGui {
     fn default() -> Self {
         Self {
             visualizer: Visualizer::default(),
+            create_new_image: true,
         }
     }
 }
@@ -92,10 +95,20 @@ impl Default for VisualizerGui {
 impl eframe::App for VisualizerGui {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
-            // todo new image creation
             let mut new_image = None;
-            new_image = Some(vec![vec![0.0; 512]; 512]);
-            self.visualizer.ui(ui, new_image);
+            ui.vertical(|ui| {
+                // todo new image creation
+                if self.create_new_image {
+                    new_image = Some(vec![vec![0.0; 512]; 512]);
+                    self.create_new_image = false;
+                }
+                self.visualizer.ui(ui, new_image);
+                ui.horizontal(|ui| {
+                    if ui.button("next").clicked() {
+                        self.create_new_image = true;
+                    }
+                });
+            });
         });
     }
 }
