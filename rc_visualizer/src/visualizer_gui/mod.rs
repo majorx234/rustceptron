@@ -17,8 +17,10 @@ impl Default for Visualizer {
 }
 
 impl Visualizer {
-    fn ui(&mut self, ui: &mut Ui, image_data: Vec<Vec<f32>>) {
-        self.set_values(ui.ctx(), image_data);
+    fn ui(&mut self, ui: &mut Ui, image_data: Option<Vec<Vec<f32>>>) {
+        if let Some(image_data) = image_data {
+            self.set_values(ui.ctx(), image_data);
+        }
 
         if let Some((size, texture_id)) = self.texture_id {
             ui.add(egui::Image::new(texture_id, size));
@@ -91,7 +93,8 @@ impl eframe::App for VisualizerGui {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
             // todo new image creation
-            let new_image = vec![vec![0.0; 512]; 512];
+            let mut new_image = None;
+            new_image = Some(vec![vec![0.0; 512]; 512]);
             self.visualizer.ui(ui, new_image);
         });
     }
