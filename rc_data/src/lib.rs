@@ -14,6 +14,11 @@ impl<T: Float> Layer<T> {
             data: vec![Zero::zero(); width * height],
         }
     }
+    pub fn clear(&mut self) {
+        self.data.iter_mut().for_each(|x| {
+            *x = Zero::zero();
+        });
+    }
 }
 
 impl<T: Float> Layer<T> {
@@ -22,8 +27,6 @@ impl<T: Float> Layer<T> {
             for x in 0..self.width {
                 if self.data[y * self.width + x] > Zero::zero() {
                     print!("#");
-                } else {
-                    print!(" ");
                 }
             }
             println!();

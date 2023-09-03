@@ -44,6 +44,8 @@ pub fn layer_fill_circle(layer: &mut Layer<f32>, cx: isize, cy: isize, r: isize,
             let dy = y - cy;
             if dx * dx + dy * dy <= r * r {
                 layer.data[y as usize * layer.width + x as usize] = value;
+            } else {
+                layer.data[y as usize * layer.width + x as usize] = 0.0;
             }
         }
     }
