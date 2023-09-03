@@ -10,7 +10,7 @@ struct Visualizer {
 impl Default for Visualizer {
     fn default() -> Self {
         Self {
-            tex_mngr: TextureManager(vec![Color32::from_rgb(255, 255, 255); 1024 * 512], None),
+            tex_mngr: TextureManager(vec![Color32::from_rgb(255, 255, 255); 512 * 512], None),
             texture_id: None,
         }
     }
