@@ -11,6 +11,15 @@ struct Visualizer {
     pub texture_id: Option<(egui::Vec2, egui::TextureId)>,
 }
 
+impl Visualizer {
+    fn new(width: usize, height: usize) -> Self {
+        Self {
+            tex_mngr: TextureManager(vec![Color32::from_rgb(255, 255, 255); width * height], None),
+            texture_id: None,
+        }
+    }
+}
+
 impl Default for Visualizer {
     fn default() -> Self {
         Self {
@@ -23,6 +32,8 @@ impl Default for Visualizer {
 impl Visualizer {
     fn ui(&mut self, ui: &mut Ui, layer_data: Option<&Layer<f32>>) {
         if let Some(layer_data) = layer_data {
+            // TODO: check if width and height are fitting into texture size
+            assert_eq!(layer_data.width * layer_data.height, self.tex_mngr.0.len());
             self.set_values(ui.ctx(), layer_data);
         }
 
@@ -33,7 +44,8 @@ impl Visualizer {
     }
 
     fn set_values(&mut self, ctx: &egui::Context, new_layler: &Layer<f32>) {
-        self.tex_mngr.update_texture(ctx, new_layler, 512, 512);
+        self.tex_mngr
+            .update_texture(ctx, new_layler, new_layler.width, new_layler.height);
         if let Some(ref texture) = self.tex_mngr.1 {
             self.texture_id = Some((egui::Vec2::new(512.0, 512.0), texture.into()));
         }
@@ -80,21 +92,28 @@ pub struct VisualizerGui {
 
 impl VisualizerGui {
     pub fn new() -> Self {
+        let width = 512;
+        let height = 512;
+        let layer_input = Layer::<f32>::new(width, height);
         Self {
-            visualizer: Visualizer::default(),
+            visualizer: Visualizer::new(width, height),
             create_new_image: false,
-            layer_input: Layer::<f32>::new(512, 512),
+            layer_input,
             rng: thread_rng(),
             is_initial_image: true,
         }
     }
 }
+
 impl Default for VisualizerGui {
     fn default() -> Self {
+        let width = 512;
+        let height = 512;
+        let layer_input = Layer::<f32>::new(width, height);
         Self {
-            visualizer: Visualizer::default(),
+            visualizer: Visualizer::new(width, height),
             create_new_image: false,
-            layer_input: Layer::<f32>::new(512, 512),
+            layer_input,
             rng: thread_rng(),
             is_initial_image: true,
         }
@@ -112,8 +131,8 @@ impl eframe::App for VisualizerGui {
                 }
                 if self.create_new_image {
                     self.layer_input.clear();
-                    let cx: isize = self.rng.gen_range(0..512);
-                    let cy: isize = self.rng.gen_range(0..512);
+                    let cx: isize = self.rng.gen_range(0..self.layer_input.width) as isize;
+                    let cy: isize = self.rng.gen_range(0..self.layer_input.height) as isize;
                     let cr: isize = self.rng.gen_range(1..256);
                     layer_fill_circle(&mut self.layer_input, cx, cy, cr, 1.0);
                     new_image = Some(&self.layer_input);
