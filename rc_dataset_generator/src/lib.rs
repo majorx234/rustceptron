@@ -1,3 +1,6 @@
+use rand::rngs::ThreadRng;
+use rand::{thread_rng, Rng};
+
 use rc_data::Layer;
 
 #[inline(always)]
@@ -9,6 +12,12 @@ pub fn clampi(x: isize, low: isize, high: isize) -> isize {
         return high;
     };
     x
+}
+
+pub fn layer_fill_random(layer: &mut Layer<f32>, rng: &mut ThreadRng) {
+    layer.data.iter_mut().for_each(|x| {
+        *x = rng.gen_range(0.0..=1.0) as f32;
+    });
 }
 
 pub fn layer_fill_rect(
