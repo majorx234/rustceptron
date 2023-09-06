@@ -1,7 +1,7 @@
 use rand::rngs::ThreadRng;
 use rand::{thread_rng, Rng};
 
-use rc_data::Layer;
+use rc_data::layer::Layer;
 
 #[inline(always)]
 pub fn clampi(x: isize, low: isize, high: isize) -> isize {

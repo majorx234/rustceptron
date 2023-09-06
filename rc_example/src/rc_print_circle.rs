@@ -1,4 +1,4 @@
-use rc_data::Layer;
+use rc_data::layer::Layer;
 use rc_dataset_generator::layer_fill_circle;
 
 fn main() {

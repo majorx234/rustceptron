@@ -3,7 +3,7 @@ use eframe::egui::{Color32, TextureHandle};
 use egui::Ui;
 use rand::rngs::ThreadRng;
 use rand::{thread_rng, Rng};
-use rc_data::Layer;
+use rc_data::layer::Layer;
 use rc_dataset_generator::{layer_fill_circle, layer_fill_rect};
 
 struct Visualizer {
