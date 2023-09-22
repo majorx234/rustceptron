@@ -14,9 +14,9 @@ pub fn clampi(x: isize, low: isize, high: isize) -> isize {
     x
 }
 
-pub fn layer_fill_random(layer: &mut Layer<f32>, rng: &mut ThreadRng) {
+pub fn layer_fill_random(layer: &mut Layer<f32>, low_bnd: f32, high_bnd: f32, rng: &mut ThreadRng) {
     layer.data.iter_mut().for_each(|x| {
-        *x = rng.gen_range(0.0..=1.0) as f32;
+        *x = rng.gen_range(low_bnd..=high_bnd);
     });
 }
 
