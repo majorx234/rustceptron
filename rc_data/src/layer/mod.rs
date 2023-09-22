@@ -1,4 +1,4 @@
-use num_traits::{Float, Zero};
+use num_traits::{Float, One, Zero};
 
 pub struct Layer<T: Float> {
     pub width: usize,
@@ -11,13 +11,15 @@ impl<T: Float> Layer<T> {
         Self {
             width,
             height,
-            data: vec![Zero::zero(); width * height],
+            data: vec![Zero::zero(); width * height + 1],
         }
     }
     pub fn clear(&mut self) {
         self.data.iter_mut().for_each(|x| {
             *x = Zero::zero();
         });
+        let last = self.data.len() - 1;
+        self.data[last] = One::one();
     }
 }
 
