@@ -1,4 +1,5 @@
 use num_traits::{Float, One, Zero};
+mod activation_fct;
 
 pub struct Layer<T: Float> {
     pub width: usize,
