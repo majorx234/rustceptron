@@ -3,7 +3,7 @@ use eframe::egui::{Color32, TextureHandle};
 use egui::Ui;
 use rand::rngs::ThreadRng;
 use rand::{thread_rng, Rng};
-use rc_data::layer::Layer;
+use rc_data::layer::{activation_fct::ReLU, Layer};
 use rc_dataset_generator::{layer_fill_circle, layer_fill_rect};
 
 struct Visualizer {
@@ -82,19 +82,19 @@ impl TextureManager {
     }
 }
 
-pub struct VisualizerGui {
+pub struct VisualizerGui<'a> {
     visualizer: Visualizer,
     create_new_image: bool,
-    layer_input: Layer<f32>,
+    layer_input: Layer<'a, f32>,
     rng: ThreadRng,
     is_initial_image: bool,
 }
 
-impl VisualizerGui {
+impl VisualizerGui<'_> {
     pub fn new() -> Self {
         let width = 512;
         let height = 512;
-        let layer_input = Layer::<f32>::new(width, height);
+        let layer_input = Layer::<f32>::new(width, height, Box::new(ReLU::new(1.0)));
         Self {
             visualizer: Visualizer::new(width, height),
             create_new_image: false,
@@ -105,11 +105,11 @@ impl VisualizerGui {
     }
 }
 
-impl Default for VisualizerGui {
+impl Default for VisualizerGui<'_> {
     fn default() -> Self {
         let width = 512;
         let height = 512;
-        let layer_input = Layer::<f32>::new(width, height);
+        let layer_input = Layer::<f32>::new(width, height, Box::new(ReLU::new(1.0)));
         Self {
             visualizer: Visualizer::new(width, height),
             create_new_image: false,
@@ -120,7 +120,7 @@ impl Default for VisualizerGui {
     }
 }
 
-impl eframe::App for VisualizerGui {
+impl eframe::App for VisualizerGui<'_> {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical(|ui| {

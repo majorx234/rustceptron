@@ -1,18 +1,21 @@
 use num_traits::{Float, One, Zero};
-mod activation_fct;
+pub mod activation_fct;
+use activation_fct::ActivationFct;
 
-pub struct Layer<T: Float> {
+pub struct Layer<'a, T: Float> {
     pub width: usize,
     pub height: usize,
     pub data: Vec<T>,
+    pub activation_fct: Box<dyn ActivationFct + 'a>,
 }
 
-impl<T: Float> Layer<T> {
-    pub fn new(width: usize, height: usize) -> Self {
+impl<'a, T: Float> Layer<'a, T> {
+    pub fn new(width: usize, height: usize, activation_fct: Box<dyn ActivationFct + 'a>) -> Self {
         Self {
             width,
             height,
             data: vec![Zero::zero(); width * height + 1],
+            activation_fct,
         }
     }
     pub fn clear(&mut self) {
@@ -24,7 +27,7 @@ impl<T: Float> Layer<T> {
     }
 }
 
-impl<T: Float> Layer<T> {
+impl<'a, T: Float> Layer<'a, T> {
     pub fn print(self) {
         for y in 0..self.height {
             for x in 0..self.width {
