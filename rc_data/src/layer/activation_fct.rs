@@ -1,3 +1,5 @@
+use std::f32::consts::E;
+
 pub trait ActivationFct {
     fn fvalue(&self, x: f32) -> f32;
     fn derivation(&self, x: f32) -> Option<f32>;
@@ -25,5 +27,22 @@ impl ActivationFct for ReLU {
             return Some(0.0);
         }
         Some(self.slope)
+    }
+}
+
+pub struct Sigmoid {}
+
+impl Sigmoid {
+    fn new() -> Sigmoid {
+        Sigmoid {}
+    }
+}
+
+impl ActivationFct for Sigmoid {
+    fn fvalue(&self, x: f32) -> f32 {
+        1.0 / (1.0 + E.powf(-x))
+    }
+    fn derivation(&self, x: f32) -> Option<f32> {
+        Some(E.powf(x) / (1.0 + E.powf(x)).powf(2.0))
     }
 }
