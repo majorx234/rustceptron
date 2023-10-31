@@ -4,12 +4,12 @@ use crate::layer::{
 };
 use num_traits::{Float, Inv, One, Zero};
 use rand::{distributions::Uniform, prelude::Distribution, thread_rng, Rng};
-pub struct Network<'a, T: Float> {
+pub struct Network<T: Float> {
     pub layers: Vec<Layer<T>>,
     pub step_count: u32,
 }
 
-impl<T: Float + rand::distributions::uniform::SampleUniform> Network<'_, T> {
+impl<T: Float + rand::distributions::uniform::SampleUniform> Network<T> {
     pub fn new(layer_sizes: Vec<(usize, usize)>) -> Self {
         let mut layers = Vec::new();
         for layer_size in layer_sizes {

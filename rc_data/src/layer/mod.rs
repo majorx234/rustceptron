@@ -11,8 +11,8 @@ pub struct Layer<T: Float> {
     activation_fct: Box<dyn ActivationFct + 'static>,
 }
 
-impl<'a, T: Float> Layer<'a, T> {
-    pub fn new(width: usize, height: usize, activation_fct: Box<dyn ActivationFct + 'a>) -> Self {
+impl<T: Float> Layer<T> {
+    pub fn new(width: usize, height: usize, activation_fct: Box<dyn ActivationFct>) -> Self {
         Self {
             width,
             height,
@@ -29,7 +29,7 @@ impl<'a, T: Float> Layer<'a, T> {
     }
 }
 
-impl<'a, T: Float> Layer<'a, T> {
+impl<'a, T: Float> Layer<T> {
     pub fn print(self) {
         for y in 0..self.height {
             for x in 0..self.width {

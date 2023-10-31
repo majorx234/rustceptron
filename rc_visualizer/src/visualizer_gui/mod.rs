@@ -82,15 +82,15 @@ impl TextureManager {
     }
 }
 
-pub struct VisualizerGui<'a> {
+pub struct VisualizerGui {
     visualizer: Visualizer,
     create_new_image: bool,
-    layer_input: Layer<'a, f32>,
+    layer_input: Layer<f32>,
     rng: ThreadRng,
     is_initial_image: bool,
 }
 
-impl VisualizerGui<'_> {
+impl VisualizerGui {
     pub fn new() -> Self {
         let width = 512;
         let height = 512;
@@ -105,7 +105,7 @@ impl VisualizerGui<'_> {
     }
 }
 
-impl Default for VisualizerGui<'_> {
+impl Default for VisualizerGui {
     fn default() -> Self {
         let width = 512;
         let height = 512;
@@ -120,7 +120,7 @@ impl Default for VisualizerGui<'_> {
     }
 }
 
-impl eframe::App for VisualizerGui<'_> {
+impl eframe::App for VisualizerGui {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical(|ui| {
