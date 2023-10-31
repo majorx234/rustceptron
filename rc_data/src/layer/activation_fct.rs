@@ -1,9 +1,8 @@
-//use erased_serde::{deserialize, serialize_trait_object};
 use serde::{Deserialize, Serialize};
 use std::f32::consts::E;
 
 #[typetag::serde(tag = "type")]
-pub trait ActivationFct: erased_serde::Serialize {
+pub trait ActivationFct {
     fn fvalue(&self, x: f32) -> f32;
     fn derivation(&self, x: f32) -> Option<f32>;
 }
