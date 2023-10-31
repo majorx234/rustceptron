@@ -5,7 +5,7 @@ use crate::layer::{
 use num_traits::{Float, Inv, One, Zero};
 use rand::{distributions::Uniform, prelude::Distribution, thread_rng, Rng};
 pub struct Network<'a, T: Float> {
-    pub layers: Vec<Layer<'a, T>>,
+    pub layers: Vec<Layer<T>>,
     pub step_count: u32,
 }
 

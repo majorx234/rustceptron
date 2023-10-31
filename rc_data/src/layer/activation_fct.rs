@@ -1,10 +1,14 @@
+//use erased_serde::{deserialize, serialize_trait_object};
+use serde::{Deserialize, Serialize};
 use std::f32::consts::E;
 
-pub trait ActivationFct {
+#[typetag::serde(tag = "type")]
+pub trait ActivationFct: erased_serde::Serialize {
     fn fvalue(&self, x: f32) -> f32;
     fn derivation(&self, x: f32) -> Option<f32>;
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct ReLU {
     slope: f32,
 }
@@ -15,6 +19,7 @@ impl ReLU {
     }
 }
 
+#[typetag::serde]
 impl ActivationFct for ReLU {
     fn fvalue(&self, x: f32) -> f32 {
         if x < 0.0 {
@@ -30,6 +35,7 @@ impl ActivationFct for ReLU {
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct Sigmoid {}
 
 impl Sigmoid {
@@ -38,6 +44,7 @@ impl Sigmoid {
     }
 }
 
+#[typetag::serde]
 impl ActivationFct for Sigmoid {
     fn fvalue(&self, x: f32) -> f32 {
         1.0 / (1.0 + E.powf(-x))

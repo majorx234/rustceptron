@@ -1,12 +1,14 @@
 use num_traits::{Float, One, Zero};
 pub mod activation_fct;
 use activation_fct::ActivationFct;
+use serde::{Deserialize, Serialize};
 
-pub struct Layer<'a, T: Float> {
+#[derive(Serialize, Deserialize)]
+pub struct Layer<T: Float> {
     pub width: usize,
     pub height: usize,
     pub data: Vec<T>,
-    pub activation_fct: Box<dyn ActivationFct + 'a>,
+    activation_fct: Box<dyn ActivationFct + 'static>,
 }
 
 impl<'a, T: Float> Layer<'a, T> {
