@@ -34,4 +34,13 @@ impl<T: Float + rand::distributions::uniform::SampleUniform> Network<T> {
             });
         }
     }
+    pub fn forward(&mut self, input: Vec<T>) -> Vec<T> {
+        for i in 1..self.layers.len() {
+            let activation_vec = vec![0.0; self.layers[i].height];
+            // TODO: Vector layer Multiplication
+            // sum with biases per layer
+            // TODO: calc Activation function
+        }
+        Vec::new()
+    }
 }
