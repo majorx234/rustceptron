@@ -41,9 +41,26 @@ impl Network {
             });
         }
     }
-    pub fn forward(&mut self, input: Vec<f32>) {
+
+    pub fn learn(&mut self, dataset: &[(&[f32], &[f32])]) {
+        // preperation of cache datastructure
+        let mut activation_vecs: Vec<Vec<f32>> = Vec::new();
+        for i in 0..self.layers.len() {
+            let activation_fct: Vec<f32> = vec![0.0; self.layers[i].width];
+            activation_vecs.push(activation_fct);
+        }
+        for (_idx, (input, outut)) in dataset.iter().enumerate() {
+            for (jdx, x) in activation_vecs[0].iter_mut().enumerate() {
+                *x = input[jdx];
+            }
+            self.forward_step(&mut activation_vecs);
+            //TODO calc cost function
+        }
+    }
+    pub fn simple_forward(&mut self, input: Vec<f32>) {
         let mut activation_vecs: Vec<Vec<f32>> = Vec::new();
 
+        // preperation of cache datastructure
         activation_vecs.push(input);
         for i in 1..self.layers.len() {
             let activation_fct: Vec<f32> = vec![0.0; self.layers[i].width];
@@ -51,6 +68,7 @@ impl Network {
         }
         self.forward_step(&mut activation_vecs);
     }
+
     fn forward_step(&mut self, activation_vec: &mut Vec<Vec<f32>>) -> Vec<f32> {
         for i in 0..self.layers.len() {
             // multiplicate layer with input
