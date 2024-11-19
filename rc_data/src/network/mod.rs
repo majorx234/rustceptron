@@ -1,5 +1,16 @@
 use crate::layer::{activation_fct::ReLU, Layer};
 use rand::Rng;
+
+fn calc_cost(y1_vec: &[f32], y2_vec: &[f32]) -> f32 {
+    assert_eq!(y1_vec.len(), y2_vec.len());
+    let mut costs: f32 = 0.0;
+    for (y1, y2) in y1_vec.iter().zip(y2_vec.iter()) {
+        let diff = y1 - y2;
+        costs += diff * diff;
+    }
+    costs
+}
+
 pub struct Network {
     pub layers: Vec<Layer>,
     pub bias: Vec<Vec<f32>>,
@@ -49,12 +60,13 @@ impl Network {
             let activation_fct: Vec<f32> = vec![0.0; self.layers[i].width];
             activation_vecs.push(activation_fct);
         }
-        for (_idx, (input, outut)) in dataset.iter().enumerate() {
+        for (_idx, (input, output)) in dataset.iter().enumerate() {
             for (jdx, x) in activation_vecs[0].iter_mut().enumerate() {
                 *x = input[jdx];
             }
             self.forward_step(&mut activation_vecs);
-            //TODO calc cost function
+            let last_index = activation_vecs.len() - 1;
+            let costs = calc_cost(&activation_vecs[last_index], &output);
         }
     }
     pub fn simple_forward(&mut self, input: Vec<f32>) {
@@ -69,7 +81,7 @@ impl Network {
         self.forward_step(&mut activation_vecs);
     }
 
-    fn forward_step(&mut self, activation_vec: &mut Vec<Vec<f32>>) -> Vec<f32> {
+    fn forward_step(&mut self, activation_vec: &mut Vec<Vec<f32>>) {
         for i in 0..self.layers.len() {
             // multiplicate layer with input
             self.layers[i].vector_mul(&mut activation_vec[i..i + 1]);
@@ -83,6 +95,5 @@ impl Network {
                 *x = self.layers[i].activation_fct.fvalue(*x);
             });
         }
-        Vec::new()
     }
 }
