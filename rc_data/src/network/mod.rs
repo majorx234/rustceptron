@@ -95,4 +95,49 @@ impl Network {
             });
         }
     }
+
+    // for future printing
+    fn investigat_network(
+        &self,
+        mut investigate_layer_fct: impl FnMut(usize, usize, usize, usize, usize, usize, f32) -> (),
+        mut investigate_activation_vecs_fct: impl FnMut(usize, usize, usize, usize, f32) -> (),
+        mut investigate_bias_fct: impl FnMut(usize, usize, usize, usize, f32) -> (),
+    ) {
+        // call investigate layer fct
+        for layer_idx in 0..self.layers.len() {
+            let height = self.layers[layer_idx].height;
+            let width = self.layers[layer_idx].width;
+            for i in 0..height {
+                for j in 0..width {
+                    investigate_layer_fct(
+                        self.layers.len(),
+                        layer_idx,
+                        height,
+                        width,
+                        i,
+                        j,
+                        self.layers[layer_idx].data[j + i * width],
+                    );
+                }
+            }
+        }
+
+        // investigate activation_vecs
+        let nvec: usize = self.activation_vecs.len();
+        for (idx, activation_vec) in self.activation_vecs.iter().enumerate() {
+            let length: usize = activation_vec.len();
+            for (jdx, activation) in activation_vec.iter().enumerate() {
+                investigate_activation_vecs_fct(nvec, idx, length, jdx, *activation);
+            }
+        }
+
+        //investigate biases
+        let nbias_vecs: usize = self.bias.len();
+        for (idx, bias_vec) in self.bias.iter().enumerate() {
+            let length: usize = bias_vec.len();
+            for (jdx, bias_value) in bias_vec.iter().enumerate() {
+                investigate_bias_fct(nbias_vecs, idx, length, jdx, *bias_value);
+            }
+        }
+    }
 }
